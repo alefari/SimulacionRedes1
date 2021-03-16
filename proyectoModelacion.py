@@ -122,8 +122,25 @@ def calcularRuta():
         print('COSTO TOTAL: $', matrizNodos[destino][1])
 
 # INICIO DE LA EJECUCION DEL PROGRAMA
+runProgram = True
+haveVisa = False
 
-print('Bienvenido, ingrese \n (1) Si desea obtener la ruta mas corta \n (2) Si desea obtener la ruta con el menor costo')
+#Preguntamos si el pasajero tiene visa
+print('Bienvenido ¿Usted posee Visa? (S/N)')
+option = input().upper()
+while(not(option == 'S' or option == 'N')):
+    print('ERROR EN OPCIÓN INGRESADA, vuelva a ingresar la opción:')
+    option = input().upper()
+#Si tiene visa marcamos como visitados los nodos que requieren visa
+if(option == 'S'):
+    haveVisa = True
+else:
+    for nodo in matrizNodos:
+        if(nodo[4] == True):
+            nodo[3] = True
+    
+
+print('Ingrese \n (1) Si desea obtener la ruta mas corta \n (2) Si desea obtener la ruta con el menor costo')
 option = input()
 while(not(option == '1' or option == '2')):
     print('ERROR EN OPCIÓN INGRESADA, vuelva a ingresar la opción:')
@@ -140,6 +157,7 @@ while(not(origen in DiccionarioIndices)):
     origen = input().upper()
 origen = DiccionarioIndices[origen]
 matrizNodos[origen][1] = 0
+matrizNodos[origen][3] = False
 
 print('Ingrese el código del aeropuerto destino:')
 destino = input().upper()
