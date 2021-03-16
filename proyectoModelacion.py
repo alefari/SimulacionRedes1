@@ -23,18 +23,6 @@ matrizAdyacenciaOriginal = [[0,    40,  35,  60, 180,   0,   0, 150, 180,   0,  
                             [0,     0,   0,   0,   0, 100,  80,  80,   0,	0,	 0],
                             [0,	    0,   0,   0,   0,   0,   0,  75,   0,	0,	 0]]
 
-matrizAdyacencia = [[0,    40,  35,  60, 180,   0,   0, 150, 180,   0,   0],
-                    [40,    0,  15,  15,   0,  85,   0,   0,   0,	0,	 0],
-                    [35,   15,   0,  15,   0,  80,	 0,   0,   0,	0,	 0],
-                    [60,   15,  15,   0,   0,	0,	 0,   0,   0,   0,	 0],
-                    [180,   0,   0,   0,   0,  50,	 0,   0,   0,   0,   0],
-                    [0,    85,  80,   0,  50,	0,  45,  90,  70, 100,   0],
-                    [0,     0,   0,   0,   0,  45,   0,   0,   0,  80,   0],
-                    [150,   0,   0,   0,   0,  90,	 0,   0,  35,  80,	75],
-                    [180,   0,   0,   0,   0,  70,	 0,  35,   0,	0,	 0],
-                    [0,     0,   0,   0,   0, 100,  80,  80,   0,	0,	 0],
-                    [0,	    0,   0,   0,   0,   0,   0,  75,   0,	0,	 0]]
-
 matrizAdyacenciaMenorDistancia = [[0,   1,   1,   1,   1,   0,   0,   1,   1,   0,   0],
                                   [1,   0,   1,   1,   0,   1,   0,   0,   0,	0,	 0],
                                   [1,   1,   0,   1,   0,   1,	 0,   0,   0,	0,	 0],
@@ -58,7 +46,7 @@ matrizNodos = [['CCS', 999, None, False, False],
                ['POS', 999, None, False, False],
                ['BGI', 999, None, False, False],
                ['PTP', 999, None, False, False],
-               ['FDF', 999, None, False, False], ]
+               ['FDF', 999, None, False, False]]
 
 
 def quedanNodosSinVisitar():
@@ -66,7 +54,6 @@ def quedanNodosSinVisitar():
         if(nodo[3] == False):
             return True
     return False
-
 
 def nodoMenorDistancia():
     menorDistancia = 999
@@ -78,7 +65,6 @@ def nodoMenorDistancia():
                 indice = index
     return indice
 
-
 def actualizarTabla(nodoActual):
     for index, distNodoAdyacente in enumerate(matrizAdyacencia[nodoActual]):
         if((distNodoAdyacente != 0) and (matrizNodos[index][3] == False) and (matrizNodos[nodoActual][1] + distNodoAdyacente < matrizNodos[index][1])):
@@ -87,13 +73,11 @@ def actualizarTabla(nodoActual):
             matrizNodos[index][2] = nodoActual
         matrizNodos[nodoActual][3] = True
 
-
 def dijkstra():
     indiceNodoActual = None
     while quedanNodosSinVisitar():
         indiceNodoActual = nodoMenorDistancia()
         actualizarTabla(indiceNodoActual)
-
 
 def calcularRuta():
     cadena = matrizNodos[destino][0]
@@ -123,7 +107,7 @@ def calcularRuta():
 
 # INICIO DE LA EJECUCION DEL PROGRAMA
 runProgram = True
-haveVisa = False
+hasVisa = False
 
 while(runProgram):
     #Preguntamos si el pasajero tiene visa
@@ -134,7 +118,7 @@ while(runProgram):
         option = input().upper()
     #Si tiene visa marcamos como visitados los nodos que requieren visa
     if(option == 'S'):
-        haveVisa = True
+        hasVisa = True
     else:
         for nodo in matrizNodos:
             if(nodo[4] == True):
@@ -150,6 +134,7 @@ while(runProgram):
         matrizAdyacencia = matrizAdyacenciaMenorDistancia
     elif(option == '2'):
         matrizAdyacencia = matrizAdyacenciaOriginal
+
     #Preguntamos el codigo del aeropuerto de origen y verificamos si es válido
     print('Aeropuertos disponibles \n CCS: Caracas \n AUA: Aruba \n CUR: Curazao \n BON: Bonaire \n SDQ: Santo Domingo \n SXM: San Martín \n SBH: San Bartolomé \n POS: Puerto España (Trinidad) \n BGI: Barbados \n PTP: Point a Pitre (Guadalupe) \n FDF: Fort de France (Martinica) \n')
     print('Ingrese el código del aeropuerto origen:')
@@ -182,7 +167,7 @@ while(runProgram):
             else:
                 visaDestino = matrizNodos[DiccionarioIndices[destino]][4]
                 #Verificamos si el visado del usuario es apto para el aeropuerto de destino
-                if(visaDestino and not haveVisa):
+                if(visaDestino and not hasVisa):
                     checkDestino = True
                     print('EL DESTINO INGRESADO REQUIERE VISA, vuelva a ingresar el código del aeropuerto destino:')
                     destino = input().upper()
@@ -203,51 +188,16 @@ while(runProgram):
         print('Hasta la próxima!')
 
     #Reinicializa las variables
-    haveVisa = False
+    hasVisa = False
     matrizNodos = [['CCS', 999, None, False, False],
-               ['AUA', 999, None, False, True],
-               ['CUR', 999, None, False, True],
-               ['BON', 999, None, False, True],
-               ['SDQ', 999, None, False, True],
-               ['SXM', 999, None, False, True],
-               ['SBH', 999, None, False, False],
-               ['POS', 999, None, False, False],
-               ['BGI', 999, None, False, False],
-               ['PTP', 999, None, False, False],
-               ['FDF', 999, None, False, False], ]
-    
-    matrizAdyacenciaOriginal = [[0,    40,  35,  60, 180,   0,   0, 150, 180,   0,   0],
-                            [40,    0,  15,  15,   0,  85,   0,   0,   0,	0,	 0],
-                            [35,   15,   0,  15,   0,  80,	 0,   0,   0,	0,	 0],
-                            [60,   15,  15,   0,   0,	0,	 0,   0,   0,   0,	 0],
-                            [180,   0,   0,   0,   0,  50,	 0,   0,   0,   0,   0],
-                            [0,    85,  80,   0,  50,	0,  45,  90,  70, 100,   0],
-                            [0,     0,   0,   0,   0,  45,   0,   0,   0,  80,   0],
-                            [150,   0,   0,   0,   0,  90,	 0,   0,  35,  80,	75],
-                            [180,   0,   0,   0,   0,  70,	 0,  35,   0,	0,	 0],
-                            [0,     0,   0,   0,   0, 100,  80,  80,   0,	0,	 0],
-                            [0,	    0,   0,   0,   0,   0,   0,  75,   0,	0,	 0]]
+                ['AUA', 999, None, False, True],
+                ['CUR', 999, None, False, True],
+                ['BON', 999, None, False, True],
+                ['SDQ', 999, None, False, True],
+                ['SXM', 999, None, False, True],
+                ['SBH', 999, None, False, False],
+                ['POS', 999, None, False, False],
+                ['BGI', 999, None, False, False],
+                ['PTP', 999, None, False, False],
+                ['FDF', 999, None, False, False]]
 
-    matrizAdyacencia = [[0,    40,  35,  60, 180,   0,   0, 150, 180,   0,   0],
-                        [40,    0,  15,  15,   0,  85,   0,   0,   0,	0,	 0],
-                        [35,   15,   0,  15,   0,  80,	 0,   0,   0,	0,	 0],
-                        [60,   15,  15,   0,   0,	0,	 0,   0,   0,   0,	 0],
-                        [180,   0,   0,   0,   0,  50,	 0,   0,   0,   0,   0],
-                        [0,    85,  80,   0,  50,	0,  45,  90,  70, 100,   0],
-                        [0,     0,   0,   0,   0,  45,   0,   0,   0,  80,   0],
-                        [150,   0,   0,   0,   0,  90,	 0,   0,  35,  80,	75],
-                        [180,   0,   0,   0,   0,  70,	 0,  35,   0,	0,	 0],
-                        [0,     0,   0,   0,   0, 100,  80,  80,   0,	0,	 0],
-                        [0,	    0,   0,   0,   0,   0,   0,  75,   0,	0,	 0]]
-
-    matrizAdyacenciaMenorDistancia = [[0,   1,   1,   1,   1,   0,   0,   1,   1,   0,   0],
-                                    [1,   0,   1,   1,   0,   1,   0,   0,   0,	0,	 0],
-                                    [1,   1,   0,   1,   0,   1,	 0,   0,   0,	0,	 0],
-                                    [1,   1,   1,   0,   0,   0,   0,   0,   0,   0,	 0],
-                                    [1,   0,   0,   0,   0,   1,   0,   0,   0,   0,   0],
-                                    [0,   1,   1,   0,   1,	0,   1,   1,   1,   1,   0],
-                                    [0,   0,   0,   0,   0,   1,   0,   0,   0,   1,   0],
-                                    [1,   0,   0,   0,   0,   1,   0,   0,   1,   1,   1],
-                                    [1,   0,   0,   0,   0,   1,	 0,   1,   0,	0,	 0],
-                                    [0,   0,   0,   0,   0,   1,   1,   1,   0,	0,	 0],
-                                    [0,	0,   0,   0,   0,   0,   0,   1,   0,	0,	 0]]
